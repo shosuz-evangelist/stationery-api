@@ -24,9 +24,7 @@ public class Product {
     private Double price;
     private String category;
 
-    @ElementCollection
-    @CollectionTable(name = "product_tags", joinColumns = @JoinColumn(name = "product_id"))
-    @Column(name = "tag")
+    @Column(name = "tags", columnDefinition = "text[]")
     private List<String> tags;
 
     private String brand;
