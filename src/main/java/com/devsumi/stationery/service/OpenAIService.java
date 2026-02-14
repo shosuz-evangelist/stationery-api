@@ -78,7 +78,7 @@ public class OpenAIService {
                     Map.of("role", "system", "content", "あなたは文房具の専門家です。お客様に最適な商品を推薦してください。"),
                     Map.of("role", "user", "content", prompt)
                 ),
-                "max_tokens", 500,
+                "max_completion_tokens", 500,
                 "temperature", 0.7
             );
             
