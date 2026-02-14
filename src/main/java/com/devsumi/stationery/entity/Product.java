@@ -2,7 +2,6 @@ package com.devsumi.stationery.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Type;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,8 +17,10 @@ public class Product {
     private Long id;
 
     private String name;
+    
     @Column(columnDefinition = "TEXT")
     private String description;
+    
     private Double price;
     private String category;
 
@@ -33,7 +34,6 @@ public class Product {
     private String imageUrl;
 
     @Column(columnDefinition = "vector(1536)")
-    @Type(org.hibernate.type.SerializableType.class)
     private float[] embedding;
 
     private LocalDateTime createdAt;
