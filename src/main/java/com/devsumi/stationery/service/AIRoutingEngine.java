@@ -1,28 +1,29 @@
 package com.devsumi.stationery.service;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AIRoutingEngine {
-    @Value("${AI_PROVIDER:azure}")
-    private String provider;
-
+    private final String provider;
     private final OpenAIService openAIService;
     private final FPTAIService fptAIService;
 
     public AIRoutingEngine(OpenAIService openAIService, FPTAIService fptAIService) {
         this.openAIService = openAIService;
         this.fptAIService = fptAIService;
+        this.provider = System.getenv().getOrDefault("AI_PROVIDER", "azure");
     }
 
     public float[] createEmbedding(String text) {
-        return switch (provider) {
+        return switch (provider.toLowerCase()) {
             case "fpt" -> fptAIService.createEmbedding(text);
             case "azure" -> openAIService.createEmbedding(text);
-            // 将来拡張用
-            case "gcp", "aws" -> throw new UnsupportedOperationException("Not implemented");
+            case "gcp", "aws" -> throw new UnsupportedOperationException("Not implemented: " + provider);
             default -> openAIService.createEmbedding(text);
         };
+    }
+    
+    public String getCurrentProvider() {
+        return provider;
     }
 }
