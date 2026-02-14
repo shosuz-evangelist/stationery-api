@@ -67,22 +67,22 @@ public class ProductController {
 
         List<Object[]> results = productRepository.semanticSearch(vectorStr, threshold, limit);
         List<Map<String, Object>> products = new ArrayList<>();
+        
         for (Object[] row : results) {
-            Product p = (Product) row[0];
-            Double similarity = (Double) row[row.length - 1];
             Map<String, Object> map = new HashMap<>();
-            map.put("id", p.getId());
-            map.put("name", p.getName());
-            map.put("description", p.getDescription());
-            map.put("price", p.getPrice());
-            map.put("category", p.getCategory());
-            map.put("tags", p.getTags());
-            map.put("brand", p.getBrand());
-            map.put("stock", p.getStock());
-            map.put("image_url", p.getImageUrl());
-            map.put("similarity", similarity);
+            map.put("id", row[0]);
+            map.put("name", row[1]);
+            map.put("description", row[2]);
+            map.put("price", row[3]);
+            map.put("category", row[4]);
+            map.put("tags", row[5]);
+            map.put("brand", row[6]);
+            map.put("stock", row[7]);
+            map.put("imageUrl", row[8]);
+            map.put("similarity", row[row.length - 1]);
             products.add(map);
         }
+        
         return ResponseEntity.ok(Map.of("results", products));
     }
 
