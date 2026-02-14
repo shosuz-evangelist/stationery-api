@@ -29,6 +29,19 @@ public class OpenAIService {
         return dummy;
     }
     
+    public String generateText(String prompt) {
+        // 実際はAzure OpenAI API呼び出し。ここではダミーレスポンス
+        return String.format(
+            "【AI推薦結果】\n" +
+            "お客様のご要望「%s」に基づき、以下の商品をお勧めいたします：\n\n" +
+            "1. 高級ボールペンセット - ビジネスシーンに最適\n" +
+            "2. ゲルインクボールペン - 滑らかな書き心地\n" +
+            "3. 多機能ペン - 効率的な作業をサポート\n\n" +
+            "これらの商品は、お客様のニーズに合わせて厳選されています。",
+            prompt.length() > 100 ? prompt.substring(0, 100) + "..." : prompt
+        );
+    }
+    
     public String getEndpoint() {
         return endpoint;
     }

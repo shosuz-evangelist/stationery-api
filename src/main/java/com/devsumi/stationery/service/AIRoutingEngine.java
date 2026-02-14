@@ -23,6 +23,15 @@ public class AIRoutingEngine {
         };
     }
     
+    public String generateText(String prompt) {
+        return switch (provider.toLowerCase()) {
+            case "fpt" -> fptAIService.generateText(prompt);
+            case "azure" -> openAIService.generateText(prompt);
+            case "gcp", "aws" -> throw new UnsupportedOperationException("Not implemented: " + provider);
+            default -> openAIService.generateText(prompt);
+        };
+    }
+    
     public String getCurrentProvider() {
         return provider;
     }

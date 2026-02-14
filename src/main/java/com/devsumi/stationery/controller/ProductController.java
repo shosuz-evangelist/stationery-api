@@ -25,7 +25,6 @@ public class ProductController {
         @RequestParam(defaultValue = "20") int limit,
         @RequestParam(defaultValue = "0") int offset
     ) {
-        // シンプルな例: 全件取得
         return productRepository.findAll();
     }
 
@@ -105,6 +104,42 @@ public class ProductController {
             "processed", targets.size(),
             "success", success,
             "failed", failed
+        ));
+    }
+
+    @PostMapping("/recommendations")
+    public ResponseEntity<Map<String, Object>> getRecommendations(@RequestBody Map<String, Object> req) {
+        Integer userId = (Integer) req.get("userId");
+        String context = (String) req.get("context");
+        
+        float[] contextEmbedding = aiRoutingEngine.createEmbedding(context);
+        String vectorStr = Arrays.toString(contextEmbedding);
+        
+        List<Object[]> searchResults = productRepository.semanticSearch(vectorStr, 0.6, 20);
+        
+        List<Map<String, Object>> products = new ArrayList<>();
+        for (Object[] row : searchResults) {
+            Map<String, Object> product = new HashMap<>();
+            product.put("id", row[0]);
+            product.put("name", row[1]);
+            product.put("description", row[2]);
+            product.put("price", row[3]);
+            product.put("category", row[4]);
+            products.add(product);
+        }
+        
+        String prompt = String.format(
+            "ユーザーID %d が「%s」というコンテキストで文房具を探しています。以下の商品から5つ選んで推薦理由とともに提案してください：\n\n%s",
+            userId, context, products.toString()
+        );
+        
+        String recommendation = aiRoutingEngine.generateText(prompt);
+        
+        return ResponseEntity.ok(Map.of(
+            "userId", userId,
+            "context", context,
+            "recommendation", recommendation,
+            "candidateProducts", products
         ));
     }
 }

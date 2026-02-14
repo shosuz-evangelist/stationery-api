@@ -20,4 +20,16 @@ public class FPTAIService {
         Arrays.fill(dummy, 0.02f);
         return dummy;
     }
+    
+    public String generateText(String prompt) {
+        // 実際はFPT AI API呼び出し。ここではダミーレスポンス
+        return String.format(
+            "【FPT AI推薦結果】\n" +
+            "お客様のご要望に基づき、最適な商品を提案いたします：\n\n" +
+            "• プレミアムボールペン\n" +
+            "• 高機能ノート\n" +
+            "• デザイン文具セット\n\n" +
+            "詳細はお問い合わせください。"
+        );
+    }
 }
