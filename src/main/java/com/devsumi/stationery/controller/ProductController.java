@@ -115,7 +115,7 @@ public class ProductController {
         float[] contextEmbedding = aiRoutingEngine.createEmbedding(context);
         String vectorStr = Arrays.toString(contextEmbedding);
         
-        List<Object[]> searchResults = productRepository.semanticSearch(vectorStr, 0.6, 20);
+        List<Object[]> searchResults = productRepository.semanticSearch(vectorStr, 0.0, 20);
         
         List<Map<String, Object>> products = new ArrayList<>();
         for (Object[] row : searchResults) {
