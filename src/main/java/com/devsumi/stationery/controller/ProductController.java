@@ -63,9 +63,7 @@ public class ProductController {
         double threshold = (double) req.getOrDefault("threshold", 0.7);
 
         float[] queryEmbedding = aiRoutingEngine.createEmbedding(query);
-        String vectorStr = Arrays.toString(queryEmbedding)
-            .replace("[", "")
-            .replace("]", "");
+        String vectorStr = Arrays.toString(queryEmbedding);
 
         List<Object[]> results = productRepository.semanticSearch(vectorStr, threshold, limit);
         List<Map<String, Object>> products = new ArrayList<>();
