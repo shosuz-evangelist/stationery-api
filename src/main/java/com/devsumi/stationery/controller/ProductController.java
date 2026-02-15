@@ -61,7 +61,7 @@ public class ProductController {
     public ResponseEntity<Map<String, Object>> semanticSearch(@RequestBody Map<String, Object> req) {
         String query = (String) req.get("query");
         int limit = (int) req.getOrDefault("limit", 10);
-        double threshold = (double) req.getOrDefault("threshold", 0.7);
+        double threshold = (double) req.getOrDefault("threshold", 0.5);
 
         float[] queryEmbedding = aiRoutingEngine.createEmbedding(query);
         String vectorStr = "[" + IntStream.range(0, queryEmbedding.length)
