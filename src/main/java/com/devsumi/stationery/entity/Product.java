@@ -32,7 +32,7 @@ public class Product {
     private String imageUrl;
 
     @Column(columnDefinition = "vector(1536)")
-    private float[] embedding;
+    private String embedding;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
