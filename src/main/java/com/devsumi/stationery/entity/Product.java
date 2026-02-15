@@ -31,8 +31,9 @@ public class Product {
     private Integer stock;
     private String imageUrl;
 
-    @Column(columnDefinition = "vector(1536)")
-    private String embedding;
+    @org.hibernate.annotations.Type(com.devsumi.stationery.hibernate.VectorType.class)
+    @Column(name = "embedding", columnDefinition = "vector(1536)")
+    private float[] embedding;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
