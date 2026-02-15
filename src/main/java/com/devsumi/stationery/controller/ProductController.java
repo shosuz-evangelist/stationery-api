@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @RestController
 @RequestMapping("/api/products")
@@ -62,7 +64,9 @@ public class ProductController {
         double threshold = (double) req.getOrDefault("threshold", 0.7);
 
         float[] queryEmbedding = aiRoutingEngine.createEmbedding(query);
-        String vectorStr = Arrays.toString(queryEmbedding);
+        String vectorStr = "[" + IntStream.range(0, queryEmbedding.length)
+            .mapToObj(i -> String.valueOf(queryEmbedding[i]))
+            .collect(Collectors.joining(",")) + "]";
 
         List<Object[]> results = productRepository.semanticSearch(vectorStr, threshold, limit);
         List<Map<String, Object>> products = new ArrayList<>();
@@ -113,7 +117,9 @@ public class ProductController {
         String context = (String) req.get("context");
         
         float[] contextEmbedding = aiRoutingEngine.createEmbedding(context);
-        String vectorStr = Arrays.toString(contextEmbedding);
+        String vectorStr = "[" + IntStream.range(0, contextEmbedding.length)
+            .mapToObj(i -> String.valueOf(contextEmbedding[i]))
+            .collect(Collectors.joining(",")) + "]";
         
         List<Object[]> searchResults = productRepository.semanticSearch(vectorStr, 0.0, 20);
         
